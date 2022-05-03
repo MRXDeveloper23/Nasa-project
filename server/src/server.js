@@ -2,9 +2,9 @@ const http = require("http");
 const app = require("./app");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const {
-  loadPlanetsData,
-} = require("./models/planets.model");
+// const {
+//   loadPlanetsData,
+// } = require("./models/planets.model");
 const MONGO_URL =
   "mongodb+srv://developer:developer23@cluster0.pdevd.mongodb.net/nasaProject?retryWrites=true&w=majority";
 
@@ -18,15 +18,12 @@ mongoose.connection.once("open", () => {
 mongoose.connection.on("error", (err) => {
   console.error(err);
 });
+mongoose.connect(MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-async function startServer() {
-  await mongoose.connect(MONGO_URL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
-  await loadPlanetsData();
-  server.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}...`);
-  });
-}
-startServer();
+// await loadPlanetsData();
+server.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}...`);
+});

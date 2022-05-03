@@ -8,7 +8,7 @@ const {
 async function httpGetAllLaunches(req, res) {
   return res.status(200).json(await getAllLaunches());
 }
-function httpAddNewLaunch(req, res) {
+async function httpAddNewLaunch(req, res) {
   const launch = req.body;
   if (
     !launch.mission ||
@@ -26,18 +26,27 @@ function httpAddNewLaunch(req, res) {
       error: "Invalid date",
     });
   }
-  addNewLaunch(launch);
+  await addNewLaunch(launch);
   return res.status(201).json(launch);
 }
-function httpAbortLaunch(req, res) {
+async function httpAbortLaunch(req, res) {
   const id = Number(req.params.id);
-  if (!existsLaunchWithId(id)) {
+  const exists = await existsLaunchWithId(id);
+  console.log(exists);
+  if (!exists) {
     return res.status(404).json({
       error: "Launch not found",
     });
   }
-  const aborted = abortLaunchWithId(id);
-  res.status(200).json(aborted);
+  const aborted = await abortLaunchWithId(id);
+  if (!aborted) {
+    return res.status(400).json({
+      error: "Launch not aborted",
+    });
+  }
+  res.status(200).json({
+    ok: true,
+  });
 }
 
 module.exports = {
