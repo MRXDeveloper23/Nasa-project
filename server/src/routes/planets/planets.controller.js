@@ -1,13 +1,11 @@
-const { planets } = require("../../models/planets.model");
+const {
+  getAllPlanets,
+} = require("../../models/planets.model");
 
-function getPlanets(req, res) {
-  res
-    .status(200)
-    .json(
-      planets.filter((planet) => planet.kepler_name !== "")
-    );
+async function httpGetPlanets(req, res) {
+  res.status(200).json(await getAllPlanets());
 }
 
 module.exports = {
-  getPlanets,
+  httpGetPlanets,
 };
