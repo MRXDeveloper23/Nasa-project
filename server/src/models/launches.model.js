@@ -3,6 +3,10 @@ const planets = require("./planets.mongo");
 
 const DEFAULT_FLIGHT_NUMBER = 100;
 
+async function loadLaunchData(){
+  console.log("Downloading launches data...");
+}
+
 async function existsLaunchWithId(launchId) {
   return await launchesDb.findOne({
     flightNumber: launchId,
@@ -73,6 +77,7 @@ async function abortLaunchWithId(launchId) {
 }
 
 module.exports = {
+  loadLaunchData, 
   getAllLaunches,
   addNewLaunch,
   existsLaunchWithId,
